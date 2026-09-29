@@ -46,3 +46,20 @@ app.get("/api/lokasi", async (req, res) => {
             longitude: f.geometry.coordinates[0],
             latitude: f.geometry.coordinates[1]
         });
+
+    } catch (error) {
+        // Tampilkan error asli di terminal VS Code
+        console.error("\n=== DETAIL ERROR ===");
+        if (error.response) {
+            console.error("Status Code:", error.response.status);
+            console.error("Pesan:", error.response.data);
+        } else {
+            console.error("Pesan Error:", error.message);
+        }
+        console.error("====================\n");
+
+        res.status(500).json({ message: "Lokasi tidak ditemukan" });
+    }
+});
+
+app.listen(3000, () => console.log("Server berjalan di http://localhost:3000"));
