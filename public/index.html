@@ -1,0 +1,363 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoFind - Pencari Lokasi</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #243b55, transparent 40%),
+                radial-gradient(circle at bottom right, #1e3c72, transparent 40%),
+                #0b1220;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .card {
+            background: rgba(17, 27, 47, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .identity {
+            margin-top: 22px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .identity p {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .identity strong {
+            color: #ffffff;
+        }
+
+        .search-area {
+            margin-top: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px 16px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            outline: none;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .hasil {
+            margin-top: 30px;
+        }
+
+        .hasil-title {
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .result-item {
+            padding: 15px;
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+        }
+
+        .result-item.full {
+            grid-column: 1 / -1;
+        }
+
+        .result-label {
+            display: block;
+            color: #64748b;
+            font-size: 11px;
+            margin-bottom: 7px;
+        }
+
+        .result-value {
+            display: block;
+            color: #7dd3fc;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #475569;
+            font-size: 11px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px 20px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-item.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="header">
+                <div class="icon">📍</div>
+
+                <h1>GeoFind</h1>
+
+                <div class="subtitle">
+                    Pencarian informasi lokasi berbasis Geolocation API
+                </div>
+            </div>
+
+            <div class="identity">
+                <p>
+                    <strong>Nama:</strong>
+                    Keisha Shendy Fadhillah Arrafli
+                </p>
+
+                <p>
+                    <strong>NIM:</strong>
+                    20240140281
+                </p>
+            </div>
+
+            <div class="search-area">
+
+                <label for="lokasi">
+                    Masukkan nama lokasi
+                </label>
+
+                <div class="search-box">
+                    <input
+                    id="lokasi"
+                    type="text"
+                    placeholder="Contoh: Yogyakarta"
+                >
+
+                    <button onclick="cari()">
+                        🔍 Cari Lokasi
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="hasil">
+
+                <div class="hasil-title">
+                    📋 Informasi Lokasi
+                </div>
+
+                <div class="result-grid">
+
+                    <div class="result-item full">
+                        <span class="result-label">LOKASI</span>
+                        <span class="result-value" id="hLokasi">-</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">NEGARA</span>
+                        <span class="result-value" id="hNegara">-</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">PROVINSI</span>
+                        <span class="result-value" id="hProvinsi">-</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">KECAMATAN</span>
+                        <span class="result-value" id="hKecamatan">-</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">LONGITUDE</span>
+                        <span class="result-value" id="hLon">-</span>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">LATITUDE</span>
+                        <span class="result-value" id="hLat">-</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="footer">
+                Geolocation Web Service • MapTiler API
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        function cari() {
+
+            const q = document.getElementById("lokasi").value;
+
+            if (!q.trim()) {
+                alert("Silakan masukkan lokasi terlebih dahulu.");
+                return;
+            }
+
+            fetch("/api/lokasi?q=" + encodeURIComponent(q))
+                .then(res => {
+
+                    if (!res.ok) {
+                        throw new Error("Gagal mengambil data");
+                    }
+
+                    return res.json();
+                })
+
+                .then(data => {
+
+                    document.getElementById("hLokasi").innerText =
+                        data.lokasi || "-";
+
+                    document.getElementById("hNegara").innerText =
+                        data.negara || "-";
+
+                    document.getElementById("hProvinsi").innerText =
+                        data.provinsi || "-";
+
+                    document.getElementById("hKecamatan").innerText =
+                        data.kecamatan || "-";
+
+                    document.getElementById("hLon").innerText =
+                        data.longitude || "-";
+
+                    document.getElementById("hLat").innerText =
+                        data.latitude || "-";
+                })
+
+                .catch(error => {
+                    console.error(error);
+                    alert("Lokasi tidak ditemukan atau terjadi kesalahan pada API.");
+                });
+        }
+    </script>
+
+</body>
+</html>
+```
